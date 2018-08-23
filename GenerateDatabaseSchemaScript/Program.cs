@@ -1,5 +1,6 @@
 ﻿using Microsoft.SqlServer.Management.Smo;
 using System;
+using System.IO;
 using System.Linq;
 
 class Program
@@ -8,13 +9,15 @@ class Program
     {
         if (0 == args.Length)
         {
-            System.Console.WriteLine("Give a database name in the command line argument.");
-            return;
+            throw new ArgumentException("Give a database name in the command line argument.");
         }
         var server = new Server(@"(localdb)\v11.0");
         var database = server.Databases.Cast<Database>().Where((db) => String.Equals(db.Name, args[0])).Single();
-
         var databaseScripter = new DatabaseScripter(database);
-        databaseScripter.Script();
+        using (var file = File.OpenWrite($"{args[0]}.sql"))
+        using (var writer = new StreamWriter(file))
+        {
+            databaseScripter.Script(writer);
+        }
     }
 }

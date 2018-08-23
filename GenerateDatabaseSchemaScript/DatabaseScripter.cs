@@ -1,6 +1,7 @@
 ﻿using Microsoft.SqlServer.Management.Sdk.Sfc;
 using Microsoft.SqlServer.Management.Smo;
 using System;
+using System.IO;
 using System.Linq;
 
 class DatabaseScripter
@@ -26,15 +27,15 @@ class DatabaseScripter
         options.Indexes = true;
     }
 
-    public void Script()
+    public void Script(StreamWriter target)
     {
-        this.ScriptEachObject(this.database.Tables);
-        this.ScriptEachObject(this.database.Views);
-        this.ScriptEachObject(this.database.StoredProcedures);
-        this.ScriptEachObject(this.database.UserDefinedFunctions);
+        this.ScriptEachObject(this.database.Tables, target);
+        this.ScriptEachObject(this.database.Views, target);
+        this.ScriptEachObject(this.database.StoredProcedures, target);
+        this.ScriptEachObject(this.database.UserDefinedFunctions, target);
     }
 
-    private void ScriptEachObject(SchemaCollectionBase collection)
+    private void ScriptEachObject(SchemaCollectionBase collection, StreamWriter target)
     {
         foreach(var o in collection.Cast<ScriptSchemaObjectBase>())
         {
@@ -45,11 +46,11 @@ class DatabaseScripter
                     statement.Contains("CREATE PROCEDURE") || 
                     statement.Contains("create procedure"))
                 {
-                    Console.WriteLine($"GO{statement}{Environment.NewLine}GO");
+                    target.WriteLine($"GO{statement}{Environment.NewLine}GO");
                 }
                 else
                 {
-                    Console.WriteLine(statement);
+                    target.WriteLine(statement);
                 }
             }                
         }
