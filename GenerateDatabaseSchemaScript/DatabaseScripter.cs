@@ -1,7 +1,7 @@
 ﻿using Microsoft.SqlServer.Management.Sdk.Sfc;
 using Microsoft.SqlServer.Management.Smo;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 
 class DatabaseScripter
@@ -27,32 +27,53 @@ class DatabaseScripter
         options.Indexes = true;
     }
 
-    public void Script(StreamWriter target)
+    public IEnumerable<string> GenerateScript()
     {
-        this.ScriptEachObject(this.database.Tables, target);
-        this.ScriptEachObject(this.database.Views, target);
-        this.ScriptEachObject(this.database.StoredProcedures, target);
-        this.ScriptEachObject(this.database.UserDefinedFunctions, target);
+        return ForEachScriptSchemaObject().SelectMany(ForEachStatement).SelectMany(InjectBatchTerminator);
     }
 
-    private void ScriptEachObject(SchemaCollectionBase collection, StreamWriter target)
+    private IEnumerable<ScriptSchemaObjectBase> ForEachScriptSchemaObject()
     {
-        foreach(var o in collection.Cast<ScriptSchemaObjectBase>())
+        foreach(ScriptSchemaObjectBase table in database.Tables)
         {
-            var script = this.scripter.Script(new Urn[]{o.Urn});
-            foreach (var statement in script)
-            {
-                if (statement.Contains("CREATE VIEW") || 
-                    statement.Contains("CREATE PROCEDURE") || 
-                    statement.Contains("create procedure"))
-                {
-                    target.WriteLine($"GO{statement}{Environment.NewLine}GO");
-                }
-                else
-                {
-                    target.WriteLine(statement);
-                }
-            }                
+            yield return table;
+        }
+        foreach(ScriptSchemaObjectBase view in database.Views)
+        {
+            yield return view;
+        }
+        foreach (ScriptSchemaObjectBase storedProcedure in database.StoredProcedures)
+        {
+            yield return storedProcedure;
+        }
+        foreach (ScriptSchemaObjectBase userDefinedFunction in database.UserDefinedFunctions)
+        {
+            yield return userDefinedFunction;
+        }
+    }
+
+    private IEnumerable<string> ForEachStatement(ScriptSchemaObjectBase o)
+    {
+        var script = this.scripter.Script(new Urn[]{o.Urn});
+        foreach (var statement in script)
+        {
+            yield return statement;
+        }                
+    }
+    
+    private IEnumerable<string> InjectBatchTerminator(string statement)
+    {
+        if (statement.Contains("CREATE VIEW") || 
+            statement.Contains("CREATE PROCEDURE") || 
+            statement.Contains("create procedure"))
+        {
+            yield return "GO";
+            yield return statement;
+            yield return "GO";
+        }
+        else
+        {
+            yield return statement;
         }
     }
 }
