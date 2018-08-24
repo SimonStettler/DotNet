@@ -40,7 +40,6 @@ public class Arguments
             } 
             if (property.PropertyType.IsEnum)
             {
-                property.MemberType
                 return Enum.Parse(property.PropertyType, value);
             }
         
