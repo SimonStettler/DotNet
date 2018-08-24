@@ -40,7 +40,8 @@ public class Arguments
             } 
             if (property.PropertyType.IsEnum)
             {
-                return Enum.Parse(property.GetType(), value);
+                property.MemberType
+                return Enum.Parse(property.PropertyType, value);
             }
         
             throw new ArgumentException($"property {property.Name} has unknown type {property.PropertyType.Name}");

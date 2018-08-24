@@ -37,7 +37,7 @@ namespace GenerateMetaRunner
             if (property.PropertyType.IsEnum) {
                 var spec = "select display='normal'";
                 var index = 1;
-                foreach (var name in Enum.GetNames(property.GetType()))
+                foreach (var name in Enum.GetNames(property.PropertyType))
                 {
                     spec += $" data_{index++}='{name}'";
                 }
