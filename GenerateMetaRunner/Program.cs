@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using Microsoft.SqlServer.Management.Smo;
 
@@ -9,7 +7,7 @@ namespace GenerateMetaRunner
 {
     internal class Program
     {
-        public static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var xml = XmlWriter.Create(
                 Console.Out, 
@@ -27,7 +25,7 @@ namespace GenerateMetaRunner
             xml.WriteStartElement("parameters");
             
             var properties = typeof(ScriptingOptions).GetProperties()
-                .Where(p => p.CanRead && p.CanWrite && p.PropertyType.IsPrimitive);
+                .Where(p => p.CanRead && p.CanWrite);
             
             xml.WriteParamElement("database", string.Empty, string.Empty);
 

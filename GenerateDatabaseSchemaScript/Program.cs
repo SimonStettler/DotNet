@@ -5,7 +5,7 @@ using System.Linq;
 
 class Program
 {
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         if (0 == args.Length)
         {

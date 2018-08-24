@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Microsoft.SqlServer.Management.Smo;
 
 public class Arguments
@@ -37,6 +38,10 @@ public class Arguments
             if (property.PropertyType == typeof(string)) 
             {
                 return value;
+            } 
+            if (property.PropertyType == typeof(Encoding)) 
+            {
+                return Encoding.GetEncoding(value);
             } 
             if (property.PropertyType.IsEnum)
             {

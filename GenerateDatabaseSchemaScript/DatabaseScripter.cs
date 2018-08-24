@@ -1,6 +1,5 @@
 ﻿using Microsoft.SqlServer.Management.Sdk.Sfc;
 using Microsoft.SqlServer.Management.Smo;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -62,8 +61,7 @@ class DatabaseScripter
 
     private IEnumerable<string> ForEachStatement(ScriptSchemaObjectBase o)
     {
-        var script = this.scripter.Script(new Urn[]{o.Urn});
-        foreach (var statement in script)
+        foreach (var statement in this.scripter.Script(new Urn[]{o.Urn}))
         {
             yield return statement;
         }                

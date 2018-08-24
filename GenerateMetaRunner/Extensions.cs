@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 
 namespace GenerateMetaRunner
@@ -33,6 +32,10 @@ namespace GenerateMetaRunner
             if (property.PropertyType == typeof(string)) 
             {
                 return "text regexp='^.+$' display='normal' validationMode='regex'";
+            } 
+            if (property.PropertyType == typeof(Encoding)) 
+            {
+                return "select display='normal' data_1='UTF-8'";
             } 
             if (property.PropertyType.IsEnum) {
                 var spec = "select display='normal'";
