@@ -15,6 +15,10 @@ class Program
         var server = new Server(@"(localdb)\v11.0");
         var database = server.Databases.Cast<Database>().Where((db) => String.Equals(db.Name, name)).Single();
         var scripter = new DatabaseScripter(database);
+        foreach (var option in Arguments.FindProperties(args))
+        {
+            option.property.SetValue(scripter.Options, option.ParseValue());
+        }
         using (var file = File.OpenWrite($"{args[0]}.sql"))
         using (var writer = new StreamWriter(file))
         {

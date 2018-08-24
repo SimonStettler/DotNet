@@ -27,6 +27,14 @@ class DatabaseScripter
         options.Indexes = true;
     }
 
+    public ScriptingOptions Options
+    {
+        get
+        {
+            return this.scripter.Options;
+        }
+    }
+
     public IEnumerable<string> GenerateScript()
     {
         return ForEachScriptSchemaObject().SelectMany(ForEachStatement).SelectMany(InjectBatchTerminator);
