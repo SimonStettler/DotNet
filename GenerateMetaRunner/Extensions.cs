@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -23,7 +25,7 @@ namespace GenerateMetaRunner
         {
             if (property.PropertyType == typeof(bool))
             {
-                return "checkbox uncheckedValue='false' display='normal' checkedValue='true'";
+                return $"checkbox uncheckedValue='{bool.FalseString}' display='normal' checkedValue='{bool.TrueString}'";
             }
             if (property.PropertyType == typeof(int)) 
             {
@@ -35,16 +37,13 @@ namespace GenerateMetaRunner
             } 
             if (property.PropertyType == typeof(Encoding)) 
             {
-                return $"select display='normal' data_1='${Encoding.UTF8.BodyName}'";
-            } 
-            if (property.PropertyType.IsEnum) {
-                var spec = "select display='normal'";
                 var index = 1;
-                foreach (var name in Enum.GetNames(property.PropertyType))
-                {
-                    spec += $" data_{index++}='{name}'";
-                }
-                return spec;
+                return "select display='normal' " + string.Join(" ", Encoding.GetEncodings().Select(encoding => $"data_{index++}='{encoding.Name}'"));
+            } 
+            if (property.PropertyType.IsEnum)
+            {
+                var index = 1;
+                return "select display='normal' " + string.Join(" ", Enum.GetNames(property.PropertyType).Select(name => $"data_{index++}='{name}'"));
             }
 
             return string.Empty;
