@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateDatabaseSchemaScrip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateMetaRunner", "GenerateMetaRunner\GenerateMetaRunner.csproj", "{BF01526C-1A4E-41B0-93EF-229709BD3A6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit", "NUnit\NUnit.csproj", "{C2FDA9B7-3605-456A-AE27-6602243EF667}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BF01526C-1A4E-41B0-93EF-229709BD3A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF01526C-1A4E-41B0-93EF-229709BD3A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF01526C-1A4E-41B0-93EF-229709BD3A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2FDA9B7-3605-456A-AE27-6602243EF667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2FDA9B7-3605-456A-AE27-6602243EF667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2FDA9B7-3605-456A-AE27-6602243EF667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2FDA9B7-3605-456A-AE27-6602243EF667}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

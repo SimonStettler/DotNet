@@ -35,7 +35,7 @@ namespace GenerateMetaRunner
             } 
             if (property.PropertyType == typeof(Encoding)) 
             {
-                return "select display='normal' data_1='UTF-8'";
+                return $"select display='normal' data_1='${Encoding.UTF8.BodyName}'";
             } 
             if (property.PropertyType.IsEnum) {
                 var spec = "select display='normal'";

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using Microsoft.SqlServer.Management.Smo;
 
@@ -13,7 +14,9 @@ namespace GenerateMetaRunner
                 Console.Out, 
                 new XmlWriterSettings
                 {
-                    OmitXmlDeclaration = true, 
+                    OmitXmlDeclaration = false,
+                    Encoding = Encoding.UTF8,
+                    WriteEndDocumentOnClose = true,
                     ConformanceLevel = ConformanceLevel.Document, 
                     CloseOutput = false });
 
