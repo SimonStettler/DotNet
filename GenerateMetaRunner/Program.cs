@@ -19,6 +19,7 @@ namespace GenerateMetaRunner
                     Encoding = Encoding.UTF8,
                     WriteEndDocumentOnClose = true,
                     ConformanceLevel = ConformanceLevel.Document, 
+                    Indent = true,
                     CloseOutput = false });
 
             xml.WriteStartDocument();
@@ -33,9 +34,12 @@ namespace GenerateMetaRunner
             
             xml.WriteParamElement("database", string.Empty, string.Empty);
 
+            var options = new ScriptingOptions();
             foreach (var property in properties)
             {
-                xml.WriteParamElement(property.Name, string.Empty, property.BuildSpec());
+                var propertyValue = property.GetValue(options);
+                var argumentValue = (propertyValue is Encoding encoding) ? encoding.BodyName : propertyValue.ToString();
+                xml.WriteParamElement(property.Name, argumentValue, property.BuildSpec());
             }
             xml.WriteEndElement();
 
@@ -64,7 +68,7 @@ namespace GenerateMetaRunner
             xml.WriteParamElement("teamcity.step.mode", "default");
             xml.WriteParamElement("proc_bit", "x86");
             xml.WriteParamElement("proc_runtime_version", "v4.0");
-            xml.WriteParamElement("proc_path", "GenerateScript");
+            xml.WriteParamElement("proc_path", "GenerateDatabaseSchemaScript.exe");
             xml.WriteParamElement("proc_additional_commandline", "%database% " + string.Join(" ", properties.Select(property => $"{property.Name}=\"%{property.Name}%\"")));
             
             xml.WriteEndElement();
