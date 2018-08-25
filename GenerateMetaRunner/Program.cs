@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -11,7 +12,7 @@ namespace GenerateMetaRunner
         private static void Main(string[] args)
         {
             var xml = XmlWriter.Create(
-                Console.Out, 
+                args.Any() ? new StreamWriter(File.Create(args.Single())) : Console.Out, 
                 new XmlWriterSettings
                 {
                     OmitXmlDeclaration = false,
