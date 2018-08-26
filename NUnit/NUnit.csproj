@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GenerateMetaRunner\GenerateMetaRunner.csproj">

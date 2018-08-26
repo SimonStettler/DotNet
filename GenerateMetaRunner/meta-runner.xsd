@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" 
+           elementFormDefault="qualified" 
+           targetNamespace="urn:schemas-jetbrains-net:teamcity:meta-runner" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner">
+
+    <xs:element name="meta-runner" type="urn:meta-runnerType" />
+
+    <xs:complexType name="paramType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name" use="optional"/>
+                <xs:attribute type="xs:string" name="value" use="optional"/>
+                <xs:attribute type="xs:string" name="spec" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="parametersType">
+        <xs:sequence>
+            <xs:element type="urn:paramType" name="param" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element type="xs:string" name="insert_params_here" minOccurs="0"/>
+            <xs:element type="xs:string" name="insert_proc_additional_commandline_here" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="runnerType">
+        <xs:sequence>
+            <xs:element type="urn:parametersType" name="parameters"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="type"/>
+    </xs:complexType>
+
+    <xs:complexType name="build-runnersType">
+        <xs:sequence>
+            <xs:element type="urn:runnerType" name="runner"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="settingsType">
+        <xs:sequence>
+            <xs:element type="urn:parametersType" name="parameters"/>
+            <xs:element type="urn:build-runnersType" name="build-runners"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="meta-runnerType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="description"/>
+            <xs:element type="urn:settingsType" name="settings"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name"/>
+    </xs:complexType>
+</xs:schema>
