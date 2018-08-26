@@ -12,8 +12,9 @@ namespace GenerateMetaRunner
     {
         private static void Main(string[] args)
         {
+            var memory = new MemoryStream();
             var xml = XmlWriter.Create(
-                args.Any() ? new StreamWriter(File.Create(args.Single())) : Console.Out, 
+                memory,
                 new XmlWriterSettings
                 {
                     OmitXmlDeclaration = false,
@@ -63,7 +64,18 @@ namespace GenerateMetaRunner
 
             reader.Pipe(xml);
             xml.Flush();
-            xml.Close();
+                        
+            var output = args.Any() 
+                ? new StreamWriter(File.OpenWrite(
+                    args.Skip(1).Any() 
+                        ? string.Join(" ", args) 
+                        : args.Single())) 
+                : Console.Out;
+
+            memory.Position = 0;
+            var writer = XmlWriter.Create(output);
+            XmlReader.Create(memory, settings).Pipe(writer);
+            writer.Flush();
         }
     }
 }
