@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<meta-runner name="MS SqlServer (Scripter)" xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner">
-    <description>Using Microsoft.SqlServer.Management.Smo.Scripter</description>
+<meta-runner name="MSSql Generate script" xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner">
+    <description>Generate SQL script using Microsoft.SqlServer.Management.Smo.Scripter</description>
     <settings>
         <parameters>
             <param name="database" value="" spec="" />
