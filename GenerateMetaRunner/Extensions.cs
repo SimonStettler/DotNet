@@ -34,10 +34,9 @@ namespace GenerateMetaRunner
             {
                 return "text regexp='^.+$' display='normal' validationMode='regex'";
             } 
-            if (property.PropertyType == typeof(Encoding)) 
+            if (property.PropertyType == typeof(Encoding))
             {
-                var index = 1;
-                return "select display='normal' " + string.Join(" ", Encoding.GetEncodings().Select(encoding => $"data_{index++}='{encoding.Name}'"));
+                return "select display='normal' data_1='utf-8' data_2='utf-16'";
             } 
             if (property.PropertyType.IsEnum)
             {
