@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<meta-runner name="MS SqlServer (Scripter)" xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner" >
+<meta-runner name="MS SqlServer (Scripter)" xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner">
     <description>Using Microsoft.SqlServer.Management.Smo.Scripter</description>
     <settings>
         <parameters>
