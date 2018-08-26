@@ -88,5 +88,18 @@ namespace GenerateMetaRunner
                     break;
             }
         }
+
+        public static void Pipe(this XmlReader reader, XmlWriter writer)
+        {
+            reader.Pipe(writer, (r, w) => true);
+        }
+        
+        public static void Pipe(this XmlReader reader, XmlWriter writer, Func<XmlReader, XmlWriter, bool> callback)
+        {
+            while (reader.Read() && callback(reader, writer))
+            {
+                writer.WriteShallowNode(reader);
+            }
+        }
     }
 }

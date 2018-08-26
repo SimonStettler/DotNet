@@ -45,10 +45,7 @@ namespace GenerateMetaRunner
                 .Where(p => p.CanRead && p.CanWrite);
             
             var reader = XmlReader.Create(Resources.TemplateXml, settings);
-            while(reader.Read() && reader.LocalName != "insert_params_here")
-            {
-                xml.WriteShallowNode(reader);
-            }
+            reader.Pipe(xml, (r, w) => r.LocalName != "insert_params_here");
             
             var options = new ScriptingOptions();
             foreach (var property in properties)
@@ -58,19 +55,13 @@ namespace GenerateMetaRunner
                 xml.WriteParamElement(property.Name, argumentValue, property.BuildSpec());
                 xml.WriteRaw(Environment.NewLine + "            ");
             }
-            
-            while(reader.Read() && reader.LocalName != "insert_proc_additional_commandline_here")
-            {
-                xml.WriteShallowNode(reader);
-            }
+
+            reader.Pipe(xml, (r, w) => r.LocalName != "insert_proc_additional_commandline_here");
 
             var arguments = string.Join(" ", properties.Select(property => $"{property.Name}=\"%{property.Name}%\""));
             xml.WriteParamElement("proc_additional_commandline", $"%database% {arguments}");
 
-            while (reader.Read())
-            {
-                xml.WriteShallowNode(reader);
-            }
+            reader.Pipe(xml);
             xml.Flush();
             xml.Close();
         }
