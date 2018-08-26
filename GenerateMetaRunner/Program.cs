@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Schema;
 using Microsoft.SqlServer.Management.Smo;
 
 namespace GenerateMetaRunner
@@ -22,10 +23,28 @@ namespace GenerateMetaRunner
                     Indent = true,
                     CloseOutput = false });
 
+            var settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.ValidationFlags = 
+                settings.ValidationFlags | 
+                XmlSchemaValidationFlags.ProcessInlineSchema | 
+                XmlSchemaValidationFlags.ProcessSchemaLocation | 
+                XmlSchemaValidationFlags.ReportValidationWarnings;
+            settings.ValidationEventHandler += (sender, e) =>
+            {
+                throw e.Exception;
+            };
+                
+            var schema = XmlSchema.Read(Resources.MetaRunnerXsd, (sender, e) =>
+            {
+                throw e.Exception;
+            });
+            settings.Schemas.Add(schema);
+            
             var properties = typeof(ScriptingOptions).GetProperties()
                 .Where(p => p.CanRead && p.CanWrite);
             
-            var reader = XmlReader.Create(Resources.TemplateXml);
+            var reader = XmlReader.Create(Resources.TemplateXml, settings);
             while(reader.Read() && reader.LocalName != "insert_params_here")
             {
                 xml.WriteShallowNode(reader);
