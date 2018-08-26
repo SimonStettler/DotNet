@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using NUnit.Framework;
 using GenerateMetaRunner;
@@ -58,6 +59,38 @@ namespace NUnit
 
             var encoding = (new {Encoding = Encoding.UTF8}).GetType().GetProperties().Single().BuildSpec();
             Assert.That(encoding.Contains(Encoding.UTF8.WebName));
+        }
+        
+        [Test]
+        public void TestWriteShallowNode()
+        {
+            var memory = new MemoryStream();
+            var reader = XmlReader.Create(Resources.TemplateXml);
+            var writer = XmlWriter.Create(
+                new StreamWriter(memory), 
+                new XmlWriterSettings
+                {
+                    OmitXmlDeclaration = false,
+                    WriteEndDocumentOnClose = true,
+                    ConformanceLevel = ConformanceLevel.Auto, 
+                    Indent = true,
+                    CloseOutput = true });
+            
+            while (reader.Read())
+            {
+                writer.WriteShallowNode(reader);
+                if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "parameters")
+                {
+                    Assert.IsTrue(true);
+                }
+
+            }
+            writer.Flush();
+            memory.Position = 0;
+
+            Assert.AreEqual(
+                Regex.Replace(new StreamReader(Resources.TemplateXml).ReadToEnd(), @"\s+"," "), 
+                Regex.Replace(new StreamReader(memory).ReadToEnd(), @"\s+"," "));
         }
     }
 }

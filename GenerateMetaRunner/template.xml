@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<meta-runner name="MS SqlServer (Scripter)">
+    <description>Using Microsoft.SqlServer.Management.Smo.Scripter</description>
+    <settings>
+        <parameters>
+            <param name="database" value="" spec="" />
+            <insert_params_here />
+        </parameters>
+        <build-runners>
+            <runner name="" type="jetbrains.dotNetGenericRunner">
+                <parameters>
+                    <param name="dotNetTestRunner.Type" value="GenericProcess" />
+                    <param name="teamcity.step.mode" value="default" />
+                    <param name="proc_bit" value="x86" />
+                    <param name="proc_runtime_version" value="v4.0" />
+                    <param name="proc_path" value="GenerateDatabaseSchemaScript.exe" />
+                    <insert_proc_additional_commandline_here />
+                </parameters>
+            </runner>
+        </build-runners>
+    </settings>
+</meta-runner>
