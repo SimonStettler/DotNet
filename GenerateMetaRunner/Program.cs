@@ -62,7 +62,7 @@ namespace GenerateMetaRunner
             var arguments = string.Join(Environment.NewLine, properties.Select(property => $"{property.Name}=\"%{property.Name}%\""));
             xml.WriteStartElement("param");
             xml.WriteAttributeString("name", "proc_additional_commandline");
-            xml.WriteCData(arguments + Environment.NewLine + arguments);
+            xml.WriteCData("%database%" + Environment.NewLine + arguments);
             xml.WriteEndElement();
 
             reader.Pipe(xml);
