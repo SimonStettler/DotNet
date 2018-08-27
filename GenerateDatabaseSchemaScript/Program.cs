@@ -11,6 +11,14 @@ class Program
         {
             throw new ArgumentException("Give a database name in the command line argument.");
         }
+        if (1 == args.Length)
+        {
+            var split = args[0].Split(' ');
+            if (1 < split.Length)
+            {
+                args = split;
+            }
+        }
         var name = args[0];
         var server = new Server(@"(localdb)\v11.0");
         var databases = server.Databases.Cast<Database>();
