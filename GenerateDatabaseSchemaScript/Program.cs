@@ -15,12 +15,12 @@ class Program
         var server = new Server(@"(localdb)\v11.0");
         var databases = server.Databases.Cast<Database>();
         var matches = databases.Where((db) => String.Equals(db.Name, name));
-        if (!databases.Any())
+        if (!matches.Any())
         {
             var names = string.Join(", ", databases.Select((db) => db.Name));
             throw new Exception($"Name {name} is not in {names}.");
         }
-        var database = databases.Single();
+        var database = matches.Single();
         var scripter = new DatabaseScripter(database);
         foreach (var option in Arguments.FindProperties(args))
         {
