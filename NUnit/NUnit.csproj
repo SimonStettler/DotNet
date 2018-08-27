@@ -48,6 +48,10 @@
     <Compile Include="XmlTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GenerateDatabaseSchemaScript\GenerateDatabaseSchemaScript.csproj">
+      <Project>{9ee0fc4d-8430-4a0a-9acf-1632b8588ca0}</Project>
+      <Name>GenerateDatabaseSchemaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenerateMetaRunner\GenerateMetaRunner.csproj">
       <Project>{bf01526c-1a4e-41b0-93ef-229709bd3a6d}</Project>
       <Name>GenerateMetaRunner</Name>
