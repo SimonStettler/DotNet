@@ -19,7 +19,7 @@ public class Arguments
                     .First()
                     .Split(new[] {'='}, 1)
                     .Skip(1)
-                    .Single()));
+                    .SingleOrDefault()));
     }
 
     public struct Option
