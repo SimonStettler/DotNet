@@ -11,7 +11,12 @@ public class Arguments
     {
         return typeof(ScriptingOptions).GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
             .Where(property => args.Any(arg => arg.StartsWith(property.Name)))
-            .Select(property => new Option(property, args.SkipWhile(arg => !arg.StartsWith(property.Name)).Single().Split(new [] {'='} , 1).Skip(1).Single()));
+            .Select(property => new Option(property, args.SkipWhile(arg => !arg
+                .StartsWith(property.Name))
+                .First()
+                .Split(new [] {'='} , 1)
+                .Skip(1)
+                .Single()));
     }
 
     public struct Option
