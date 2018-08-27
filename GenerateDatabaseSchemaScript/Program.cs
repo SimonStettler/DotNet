@@ -7,6 +7,14 @@ class Program
 {
     internal static void Main(string[] args)
     {
+        
+        Console.WriteLine("args");
+        foreach (var arg in args)
+        {
+            Console.WriteLine(arg);
+        }
+        Console.WriteLine("args");
+
         if (0 == args.Length)
         {
             throw new ArgumentException("Give a database name in the command line argument.");
