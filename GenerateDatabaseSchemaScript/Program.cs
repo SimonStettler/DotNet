@@ -5,7 +5,7 @@ using System.Linq;
 
 class Program
 {
-    private static void Main(string[] args)
+    internal static void Main(string[] args)
     {
         if (0 == args.Length)
         {
@@ -13,7 +13,14 @@ class Program
         }
         var name = args[0];
         var server = new Server(@"(localdb)\v11.0");
-        var database = server.Databases.Cast<Database>().Where((db) => String.Equals(db.Name, name)).Single();
+        var databases = server.Databases.Cast<Database>();
+        var matches = databases.Where((db) => String.Equals(db.Name, name));
+        if (!databases.Any())
+        {
+            var names = string.Join(", ", databases.Select((db) => db.Name));
+            throw new Exception($"Name {name} is not in {names}.");
+        }
+        var database = databases.Single();
         var scripter = new DatabaseScripter(database);
         foreach (var option in Arguments.FindProperties(args))
         {
