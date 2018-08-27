@@ -27,6 +27,11 @@ class Program
                 args = split;
             }
         }
+        foreach (var arg in args)
+        {
+            Console.WriteLine(arg);
+        }
+        Console.WriteLine("args");
         var name = args[0];
         var server = new Server(@"(localdb)\v11.0");
         var databases = server.Databases.Cast<Database>();
@@ -38,7 +43,7 @@ class Program
         }
         var database = matches.Single();
         var scripter = new DatabaseScripter(database);
-        foreach (var option in Arguments.FindProperties(args))
+        foreach (var option in Arguments.FindOptions(args))
         {
             option.property.SetValue(scripter.Options, option.ParseValue());
         }
