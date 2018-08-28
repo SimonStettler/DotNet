@@ -13,9 +13,11 @@ public class Arguments
         for (var i = 0; i < args.Length; i++)
         {
             var arg = args[i];
-            var split = arg.Split('=').ToArray();
+            var split = arg.Split('=').ToArray();            
             var property = typeof(ScriptingOptions).GetProperty(split.First());
-            var value = split[1];
+            var value = split.Skip(1).FirstOrDefault();
+            if(value == null) 
+                Console.WriteLine(arg);            
             var option = new Option(property, value);
             yield return option;
         }
