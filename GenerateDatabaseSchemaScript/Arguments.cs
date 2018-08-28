@@ -7,19 +7,18 @@ using Microsoft.SqlServer.Management.Smo;
 
 public class Arguments
 {
-    public static IEnumerable<Option> FindProperties(string[] args)
+    public static IEnumerable<Option> FindOptions(string[] args)
     {
-        return typeof(ScriptingOptions)
-            .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-            .Where(property => args.Any(arg => arg.StartsWith(property.Name)))
-            .Select(property => new Option(
-                property,
-                args.SkipWhile(arg => !arg
-                        .StartsWith(property.Name))
-                    .First()
-                    .Split(new[] {'='}, 1)
-                    .Skip(1)
-                    .SingleOrDefault()));
+        var properties = typeof(ScriptingOptions).GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
+        for (var i = 0; i < args.Length; i++)
+        {
+            var arg = args[i];
+            var split = arg.Split('=').ToArray();
+            var property = typeof(ScriptingOptions).GetProperty(split.First());
+            var value = split[1];
+            var option = new Option(property, value);
+            yield return option;
+        }
     }
 
     public struct Option
@@ -49,7 +48,14 @@ public class Arguments
             } 
             if (property.PropertyType == typeof(Encoding)) 
             {
-                return Encoding.GetEncoding(value);
+                try
+                {
+                    return Encoding.GetEncoding(value);
+                }
+                catch (Exception e)
+                {
+                    return Encoding.UTF8;
+                }
             } 
             if (property.PropertyType.IsEnum)
             {
