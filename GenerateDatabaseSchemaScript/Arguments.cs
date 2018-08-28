@@ -15,9 +15,17 @@ public class Arguments
             var arg = args[i];
             var split = arg.Split('=').ToArray();            
             var property = typeof(ScriptingOptions).GetProperty(split.First());
+            if (null == property)
+            {
+                Console.WriteLine(arg);
+                continue;
+            }
             var value = split.Skip(1).FirstOrDefault();
-            if(value == null) 
-                Console.WriteLine(arg);            
+            if (null == value)
+            {
+                Console.WriteLine(arg);
+                continue;
+            }
             var option = new Option(property, value);
             yield return option;
         }
