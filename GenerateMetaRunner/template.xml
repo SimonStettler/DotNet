@@ -7,14 +7,16 @@
             <!-- params -->
         </parameters>
         <build-runners>
-            <runner name="" type="jetbrains.dotNetGenericRunner">
+            <runner name="" type="Ant">
                 <parameters>
-                    <param name="dotNetTestRunner.Type" value="GenericProcess" />
+                    <!-- build-file -->
+                    <param name="build-file-path" value="build.xml" />
+                    <param name="target" value="run" />
+                    <param name="teamcity.coverage.emma.include.source" value="true" />
+                    <param name="teamcity.coverage.emma.instr.parameters" value="-ix -*Test*" />
+                    <param name="teamcity.coverage.idea.includePatterns" value="*" />
                     <param name="teamcity.step.mode" value="default" />
-                    <param name="proc_bit" value="x86" />
-                    <param name="proc_runtime_version" value="v4.0" />
-                    <param name="proc_path" value="GenerateDatabaseSchemaScript.exe" />
-                    <!-- proc_additionnal_commandline -->
+                    <param name="use-custom-build-file" value="true" />
                 </parameters>
             </runner>
         </build-runners>

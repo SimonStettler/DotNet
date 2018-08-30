@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using Microsoft.SqlServer.Management.Smo;
+using SqlContracts;
 
 namespace GenerateMetaRunner
 {
@@ -46,7 +48,8 @@ namespace GenerateMetaRunner
                 .Where(p => p.CanRead && p.CanWrite);
             
             var reader = XmlReader.Create(Resources.TemplateXml, settings);
-            reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment || r.Value == " params "));
+
+            reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment && r.Value == " params "));
             
             var options = new ScriptingOptions();
             foreach (var property in properties)
@@ -57,11 +60,16 @@ namespace GenerateMetaRunner
                 xml.WriteRaw(Environment.NewLine + "            ");
             }
 
-            reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment || r.Value == " proc_additional_commandline "));
+            reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment && r.Value == " build-file "));
+            xml.WriteStartElement("param");
+            xml.WriteAttributeString("name", "build-file");
 
-            var arguments = string.Join(" ", properties.Select(property => $"{property.Name}=%{property.Name}%"));
-            xml.WriteParamElement("proc_additional_commandline", $"%database% {arguments}");
-
+            var arguments =
+                (new string[] {"%database%"}).Concat(
+                    properties.Select(property => $"{property.Name}=%{property.Name}%"));
+            var cdata = AntProject.BuildXml("run", "GenerateDatabaseSchemaScript.exe", arguments);
+            xml.WriteCData(cdata);
+            xml.WriteEndElement();
             reader.Pipe(xml);
             xml.Flush();
                         
