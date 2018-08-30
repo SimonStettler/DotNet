@@ -2,11 +2,10 @@
 <xs:schema attributeFormDefault="unqualified" 
            elementFormDefault="qualified" 
            targetNamespace="urn:schemas-jetbrains-net:teamcity:meta-runner" 
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner">
-
-    <xs:element name="meta-runner" type="urn:meta-runnerType" />
-
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="meta-runner" 
+                type="urn:meta-runnerType" 
+                xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
     <xs:complexType name="paramType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
@@ -16,40 +15,33 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
-
     <xs:complexType name="parametersType">
         <xs:sequence>
-            <xs:element type="urn:paramType" name="param" maxOccurs="unbounded" minOccurs="0" />
-            <xs:element type="xs:string" name="insert_params_here" minOccurs="0"/>
-            <xs:element type="xs:string" name="insert_proc_additional_commandline_here" minOccurs="0"/>
+            <xs:element type="urn:paramType" name="param" maxOccurs="unbounded" minOccurs="0" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="runnerType">
         <xs:sequence>
-            <xs:element type="urn:parametersType" name="parameters"/>
+            <xs:element type="urn:parametersType" name="parameters" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
         <xs:attribute type="xs:string" name="type"/>
     </xs:complexType>
-
     <xs:complexType name="build-runnersType">
         <xs:sequence>
-            <xs:element type="urn:runnerType" name="runner"/>
+            <xs:element type="urn:runnerType" name="runner" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="settingsType">
         <xs:sequence>
-            <xs:element type="urn:parametersType" name="parameters"/>
-            <xs:element type="urn:build-runnersType" name="build-runners"/>
+            <xs:element type="urn:parametersType" name="parameters" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
+            <xs:element type="urn:build-runnersType" name="build-runners" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="meta-runnerType">
         <xs:sequence>
             <xs:element type="xs:string" name="description"/>
-            <xs:element type="urn:settingsType" name="settings"/>
+            <xs:element type="urn:settingsType" name="settings" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
     </xs:complexType>

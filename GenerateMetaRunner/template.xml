@@ -4,7 +4,7 @@
     <settings>
         <parameters>
             <param name="database" value="" spec="" />
-            <insert_params_here />
+            <!-- params -->
         </parameters>
         <build-runners>
             <runner name="" type="jetbrains.dotNetGenericRunner">
@@ -14,7 +14,7 @@
                     <param name="proc_bit" value="x86" />
                     <param name="proc_runtime_version" value="v4.0" />
                     <param name="proc_path" value="GenerateDatabaseSchemaScript.exe" />
-                    <insert_proc_additional_commandline_here />
+                    <!-- proc_additionnal_commandline -->
                 </parameters>
             </runner>
         </build-runners>

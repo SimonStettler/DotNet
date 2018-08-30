@@ -46,7 +46,7 @@ namespace GenerateMetaRunner
                 .Where(p => p.CanRead && p.CanWrite);
             
             var reader = XmlReader.Create(Resources.TemplateXml, settings);
-            reader.Pipe(xml, (r, w) => r.LocalName != "insert_params_here");
+            reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment || r.Value == " params "));
             
             var options = new ScriptingOptions();
             foreach (var property in properties)
@@ -57,7 +57,7 @@ namespace GenerateMetaRunner
                 xml.WriteRaw(Environment.NewLine + "            ");
             }
 
-            reader.Pipe(xml, (r, w) => r.LocalName != "insert_proc_additional_commandline_here");
+            reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment || r.Value == " proc_additional_commandline "));
 
             var arguments = string.Join(" ", properties.Select(property => $"{property.Name}=\"%{property.Name}%\""));
             xml.WriteParamElement("proc_additional_commandline", $"%database% {arguments}");
