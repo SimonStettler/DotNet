@@ -28,8 +28,8 @@
         <xs:attribute type="xs:string" name="type"/>
     </xs:complexType>
     <xs:complexType name="build-runnersType">
-        <xs:sequence>
-            <xs:element type="urn:runnerType" name="runner" maxOccurs="unbounded" minOccurs="0" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
+        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element type="urn:runnerType" name="runner" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="settingsType">

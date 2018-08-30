@@ -1,3 +1,4 @@
+using System.IO;
 using System.Xml;
 using System.Xml.Schema;
 using GenerateMetaRunner;
@@ -9,7 +10,12 @@ namespace NUnit
     public class XmlTests
     {
         [Test]
-        public static void TestSchemaValidation()
+        public static void ValidateTemplateXml()
+        {
+            TestSchemaValidation(Resources.TemplateXml, Resources.MetaRunnerXsd);
+        }
+
+        private static void TestSchemaValidation(Stream xml, Stream xsd)
         {
             ValidationEventHandler validationEventHandler= (sender, args) =>
             {
@@ -32,10 +38,10 @@ namespace NUnit
                 XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += validationEventHandler;
             
-            var schema = XmlSchema.Read(Resources.MetaRunnerXsd, validationEventHandler);
+            var schema = XmlSchema.Read(xsd, validationEventHandler);
             settings.Schemas.Add(schema);
                 
-            var reader = XmlReader.Create(Resources.TemplateXml, settings);
+            var reader = XmlReader.Create(xml, settings);
             while (reader.Read())
             {
                 Assert.IsTrue(true);
