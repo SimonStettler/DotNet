@@ -59,7 +59,7 @@ namespace GenerateMetaRunner
 
             reader.Pipe(xml, (r, w) => !(r.NodeType == XmlNodeType.Comment || r.Value == " proc_additional_commandline "));
 
-            var arguments = string.Join(" ", properties.Select(property => $"{property.Name}=%{property.Name}"));
+            var arguments = string.Join(" ", properties.Select(property => $"{property.Name}=%{property.Name}%"));
             xml.WriteParamElement("proc_additional_commandline", $"%database% {arguments}");
 
             reader.Pipe(xml);
