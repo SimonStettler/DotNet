@@ -11,7 +11,15 @@ namespace NUnit
         public void TestMain()
         {
             var name = "master";
-            Assert.DoesNotThrow(() => Program.Main(new [] {name}));
+            Assert.DoesNotThrow(() => Program.Main(new [] {name, "Encoding=utf-8", $"FileName={name}.sql"}));
+            Assert.That(File.Exists($"{name}.sql"));
+        }
+
+        [Test]
+        public void TestMain2()
+        {
+            var name = "master";
+            Assert.DoesNotThrow(() => Program.Main(new [] {$"{name} Encoding=utf-8 FileName={name}.sql"}));
             Assert.That(File.Exists($"{name}.sql"));
         }
 
