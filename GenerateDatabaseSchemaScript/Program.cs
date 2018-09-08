@@ -19,8 +19,9 @@ class Program
                 args = split;
             }
         }
-        var name = args[0];
-        var server = new Server(@"(localdb)\v11.0");
+
+        var name = args.Get("Database");
+        var server = new Server(args.Get("Instance"));
         var databases = server.Databases.Cast<Database>();
         var matches = databases.Where((db) => String.Equals(db.Name, name));
         if (!matches.Any())

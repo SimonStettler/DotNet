@@ -3,7 +3,8 @@
     <description>Generate SQL script using Microsoft.SqlServer.Management.Smo.Scripter</description>
     <settings>
         <parameters>
-            <param name="database" value="" spec="" />
+            <param name="Database" value="" spec="text regexp='^.+$' display='normal' validationMode='regex'" />
+            <param name="Instance" value="(localdb)\v11.0" spec="text regexp='^.+$' display='normal' validationMode='regex'" />
             <!-- params -->
         </parameters>
         <build-runners>

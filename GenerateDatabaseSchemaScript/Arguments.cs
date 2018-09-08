@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.SqlServer.Management.Smo;
 
-public class Arguments
+public static class Arguments
 {
     public static IEnumerable<Option> FindProperties(string[] args)
     {
@@ -14,12 +14,12 @@ public class Arguments
             .Where(property => args.Any(arg => arg.StartsWith(property.Name)))
             .Select(property => new Option(
                 property,
-                args.SkipWhile(arg => !arg
-                        .StartsWith(property.Name))
-                    .First()
-                    .Split(new[] {'='}, 2)
-                    .Skip(1)
-                    .SingleOrDefault()));
+                args.Get(property.Name)));
+    }
+
+    public static string Get(this IEnumerable<string> args, string key)
+    {
+        return args.SingleOrDefault(arg => arg.StartsWith(key + "="))?.Substring(1 + key.Length) ?? string.Empty;
     }
 
     public struct Option

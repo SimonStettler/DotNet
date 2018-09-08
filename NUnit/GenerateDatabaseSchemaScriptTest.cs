@@ -8,6 +8,15 @@ namespace NUnit
     public class GenerateDatabaseSchemaScriptTest
     {
         [Test]
+        public void TestArgumentsGet()
+        {
+            var args = new [] {"master", "Encoding=utf-8", "FileName=master.sql"};
+            Assert.AreEqual("utf-8", args.Get("Encoding"));
+            Assert.AreEqual(string.Empty, args.Get("master"));
+            Assert.AreEqual("master.sql", args.Get("FileName"));
+        }
+
+        [Test]
         public void TestMain()
         {
             var name = "master";
