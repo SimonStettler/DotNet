@@ -11,17 +11,23 @@ class Program
         {
             throw new ArgumentException("Give a database name in the command line argument.");
         }
+        
+        Console.WriteLine("/** ");
         if (1 == args.Length)
         {
             var split = args[0].Split(' ');
             if (1 < split.Length)
             {
+                Console.WriteLine("split");
                 args = split;
             }
         }
 
         var name = args.Get("Database");
-        var server = new Server(args.Get("Instance"));
+        var instance = args.Get("Instance");
+        Console.WriteLine($"Database = {name}");
+        Console.WriteLine($"Instance = {instance}");
+        var server = new Server(instance);
         var databases = server.Databases.Cast<Database>();
         var matches = databases.Where((db) => String.Equals(db.Name, name));
         if (!matches.Any())
@@ -33,8 +39,11 @@ class Program
         var scripter = new DatabaseScripter(database);
         foreach (var option in Arguments.FindProperties(args))
         {
-            option.property.SetValue(scripter.Options, option.ParseValue());
+            var value = option.ParseValue();
+            option.property.SetValue(scripter.Options, value);
+            Console.WriteLine($"{option.property.Name} = {value}");
         }
+        Console.WriteLine("**/");
         foreach (var statement in scripter.GenerateScript())
         {
             Console.WriteLine(statement);
