@@ -34,13 +34,9 @@ class Program
         {
             option.property.SetValue(scripter.Options, option.ParseValue());
         }
-        using (var file = File.OpenWrite($"{args[0]}.sql"))
-        using (var writer = new StreamWriter(file))
+        foreach (var statement in scripter.GenerateScript())
         {
-            foreach (var statement in scripter.GenerateScript())
-            {
-                writer.WriteLine(statement);
-            }
+            Console.WriteLine(statement);
         }
     }
 }
