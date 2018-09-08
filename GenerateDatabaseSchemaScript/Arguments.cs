@@ -17,7 +17,7 @@ public class Arguments
                 args.SkipWhile(arg => !arg
                         .StartsWith(property.Name))
                     .First()
-                    .Split(new[] {'='}, 1)
+                    .Split(new[] {'='}, 2)
                     .Skip(1)
                     .SingleOrDefault()));
     }
