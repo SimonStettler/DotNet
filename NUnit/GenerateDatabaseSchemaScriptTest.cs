@@ -20,7 +20,7 @@ namespace NUnit
         public void TestMain()
         {
             var name = "master";
-            Assert.DoesNotThrow(() => Program.Main(new [] {$"DataBase={name}", "Instance=(localdb)\\v11.0", $"FileName={name}.sql"}));
+            Assert.DoesNotThrow(() => Program.Main(new [] {$"Database={name}", "Instance=(localdb)\\v11.0", $"FileName={name}.sql"}));
             Assert.That(File.Exists($"{name}.sql"));
         }
 
@@ -28,7 +28,7 @@ namespace NUnit
         public void TestMain2()
         {
             var name = "master";
-            Assert.DoesNotThrow(() => Program.Main(new [] {$"DataBase={name} Instance=(localdb)\\v11.0 FileName={name}.sql"}));
+            Assert.DoesNotThrow(() => Program.Main(new [] {$"Database={name} Instance=(localdb)\\v11.0 FileName={name}.sql"}));
             Assert.That(File.Exists($"{name}.sql"));
         }
 
