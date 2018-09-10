@@ -19,5 +19,8 @@
                 </parameters>
             </runner>
         </build-runners>
+        <requirements>
+            <contains id="RQ_2" name="env.Path" value="Microsoft SQL Server" />
+        </requirements>
     </settings>
 </meta-runner>

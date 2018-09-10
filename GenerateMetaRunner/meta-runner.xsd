@@ -32,10 +32,25 @@
             <xs:element type="urn:runnerType" name="runner" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="requirementType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name" use="required"/>
+                <xs:attribute type="xs:string" name="value" use="required"/>
+                <xs:attribute type="xs:string" name="id" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="requirementsType">
+        <xs:sequence>
+            <xs:element type="urn:requirementType" name="contains" maxOccurs="unbounded" minOccurs="0" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="settingsType">
         <xs:sequence>
             <xs:element type="urn:parametersType" name="parameters" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
             <xs:element type="urn:build-runnersType" name="build-runners" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
+            <xs:element type="urn:requirementsType" name="requirements" xmlns:urn="urn:schemas-jetbrains-net:teamcity:meta-runner"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="meta-runnerType">
